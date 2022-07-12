@@ -51,33 +51,12 @@ enum e_Machine{
     {
 
     }
-    switch (chaineTotal.charAt(position)) {
-      case '+':
-        s = "+";
-        position++;
-        return new Terminal(s, type.OPERATEUR, 0);
-      case '-':
-        s = "-";
-        position++;
-        return new Terminal(s, type.OPERATEUR, 0);
-      case '*':
-        s = "*";
-        position++;
-        return new Terminal(s, type.OPERATEUR, 0);
-      case '/':
-        s = "/";
-        position++;
-        return new Terminal(s, type.OPERATEUR, 0);
-      case '(':
-        s = "(";
-        position++;
-        return new Terminal(s, type.OPERATEUR, 0);
-      case ')':
-        s = ")";
-        position++;
-        return new Terminal(s, type.OPERATEUR, 0);
+    if(chaineTotal.charAt(position) == ('+' | '-' | '*' | '/' | '(' | ')')) {
+      s += chaineTotal.charAt(position);
+      position++;
+      return new Terminal(s, type.OPERATEUR, 0);
     }
-    if(Character.isUpperCase(chaineTotal.charAt(position)))
+    else if(Character.isUpperCase(chaineTotal.charAt(position)))
     {
       s += chaineTotal.charAt(position);
       position++;
@@ -93,7 +72,11 @@ enum e_Machine{
         position++;
       }
       if(chaineTotal.charAt(position) == ('+' | '-' | '*' | '/' | '(' | ')')){
-        if(chaineTotal.charAt(position-1) == '_' )
+        if(chaineTotal.charAt(position-1) == '_')
+        {
+          s+= chaineTotal.charAt(position);
+          ErreurLex(s,position,3);
+        }
         return new Terminal(s,type.OPERANTE,0 );
       }
       if(Character.isDigit(chaineTotal.charAt(position)))
@@ -109,8 +92,17 @@ enum e_Machine{
         return null;
       }
     }
-
-    return null;
+    else if(Character.isLowerCase(chaineTotal.charAt(position)) && chaineTotal.charAt(position) == '_')
+    {
+      s+= chaineTotal.charAt(position);
+      ErreurLex(s,position,4);
+      return null;
+    }
+    else {
+      s += chaineTotal.charAt(position);
+      ErreurLex(s,position,5);
+      return null;
+    }
   }
 
  
