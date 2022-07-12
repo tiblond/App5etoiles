@@ -1,6 +1,8 @@
-package app5;
+package app6;
 
 /** @author Ahmed Khoumsi */
+
+import app6.type;
 
 /** Cette classe effectue l'analyse lexicale
  */
@@ -8,12 +10,22 @@ public class AnalLex {
 
 // Attributs
 //  ...
+String chaineTotal;
+int size;
+int position;
+enum e_Machine{
+  STATE_0,
+  STATE_1,
+  STATE_2
+};
 
-	
+
 /** Constructeur pour l'initialisation d'attribut(s)
  */
-  public AnalLex( ) {  // arguments possibles
-    //
+  public AnalLex(String word) {  // arguments possibles
+    chaineTotal = word;
+    size = word.length();
+    position = 0;
   }
 
 
@@ -22,22 +34,56 @@ public class AnalLex {
       true s'il reste encore au moins un terminal qui n'a pas ete retourne 
  */
   public boolean resteTerminal( ) {
-    //
+    if(position < size-1){
+      return true;
+    }
+    return false;
   }
   
   
 /** prochainTerminal() retourne le prochain terminal
       Cette methode est une implementation d'un AEF
  */  
-  public Terminal prochainTerminal(chaineUL) {
-     //
+  public Terminal prochainTerminal( ) {
+    e_Machine etat;
+    while(true)
+    {
+      switch (chaineTotal.charAt(position)) {
+        case '+':
+          String s = "+";
+          return new Terminal(s, type.OPERATEUR, 0);
+        case '-':
+          s = "-";
+          return new Terminal(s, type.OPERATEUR, 0);
+        case '*':
+          s = "*";
+          return new Terminal(s, type.OPERATEUR, 0);
+        case '/':
+          s = "/";
+          return new Terminal(s, type.OPERATEUR, 0);
+        case '(':
+          s = "(";
+          return new Terminal(s, type.OPERATEUR, 0);
+        case ')':
+          s = ")";
+          return new Terminal(s, type.OPERATEUR, 0);
+      }
+      if(Character.isLetter(chaineTotal.charAt(position)))
+      {
+
+      }
+      position++;
+    }
+
+
+    return null;
   }
 
  
 /** ErreurLex() envoie un message d'erreur lexicale
  */ 
-  public void ErreurLex(String s) {	
-     //
+  public void ErreurLex(String s,int erreurPos) throws SyntaxErreur{
+     throw new SyntaxErreur(s,erreurPos);
   }
 
   
