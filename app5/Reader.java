@@ -1,4 +1,4 @@
-package app6;
+package app5;
 
 /**
  * <p>Title: APP6 Compilation</p>
@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 public class Reader {
   String _str;
 
-  /** Constructeur prenant dans ses paramˆtre le non du fichier a ouvrir
+  /** Constructeur prenant dans ses paramï¿½tre le non du fichier a ouvrir
    * @param  String qui est le Nom du Fichier
    */
 

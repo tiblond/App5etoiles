@@ -1,4 +1,4 @@
-package app6;
+package app5;
 
 /** @author Ahmed Khoumsi */
 
@@ -29,7 +29,7 @@ public class AnalLex {
 /** prochainTerminal() retourne le prochain terminal
       Cette methode est une implementation d'un AEF
  */  
-  public Terminal prochainTerminal( ) {
+  public Terminal prochainTerminal(chaineUL) {
      //
   }
 

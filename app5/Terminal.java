@@ -1,4 +1,4 @@
-package app6;
+package app5;
 
 /** @author Ahmed Khoumsi */
 
@@ -7,16 +7,24 @@ package app6;
  */
 public class Terminal {
 
+//int state = 0;
+String chaineUL;
+//char ptrChar = ' ';
 
-// Constantes et attributs
-//  ....
+
 
 
 /** Un ou deux constructeurs (ou plus, si vous voulez)
   *   pour l'initalisation d'attributs 
  */	
-  public Terminal( ) {   // arguments possibles
+  public Terminal() {   // arguments possibles
+    Terminal UL = new Terminal();
+
      //
   }
+  public Terminal(String chaineUL) {   // arguments possibles
+    this.chaineUL = chaineUL;
 
+    //
+  }
 }
