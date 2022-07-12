@@ -44,11 +44,17 @@ enum e_Machine{
 /** prochainTerminal() retourne le prochain terminal
       Cette methode est une implementation d'un AEF
  */  
-  public Terminal prochainTerminal() {
+  public Terminal prochainTerminal() throws SyntaxErreur {
     e_Machine etat;
+    String s = "";
+    while(position < size-1)
+    {
+
+    }
     switch (chaineTotal.charAt(position)) {
       case '+':
-        String s = "+";
+        s = "+";
+        position++;
         return new Terminal(s, type.OPERATEUR, 0);
       case '-':
         s = "-";
@@ -73,18 +79,35 @@ enum e_Machine{
     }
     if(Character.isUpperCase(chaineTotal.charAt(position)))
     {
-      String s ="";
-      while(true)
+      s += chaineTotal.charAt(position);
+      position++;
+      while(Character.isLetter(chaineTotal.charAt(position)) | chaineTotal.charAt(position) == '_')
       {
-        s += chaineTotal.charAt(position);
-        if(Character.isLetter(chaineTotal.charAt(position)) == false)
+        if(chaineTotal.charAt(position-1) == '_' && chaineTotal.charAt(position) == '_')
         {
-          return new Terminal(s, type.OPERANTE, 0);
+          s+= chaineTotal.charAt(position);
+          ErreurLex(s,position,1);
+          return null;
         }
+        s += chaineTotal.charAt(position);
         position++;
       }
-
-      if()
+      if(chaineTotal.charAt(position) == ('+' | '-' | '*' | '/' | '(' | ')')){
+        if(chaineTotal.charAt(position-1) == '_' )
+        return new Terminal(s,type.OPERANTE,0 );
+      }
+      if(Character.isDigit(chaineTotal.charAt(position)))
+      {
+        s+= chaineTotal.charAt(position);
+        ErreurLex(s,position,2);
+        return null;
+      }
+      else
+      {
+        s+= chaineTotal.charAt(position);
+        ErreurLex(s,position,5);
+        return null;
+      }
     }
 
     return null;
@@ -93,8 +116,28 @@ enum e_Machine{
  
 /** ErreurLex() envoie un message d'erreur lexicale
  */ 
-  public void ErreurLex(String s,int erreurPos) throws SyntaxErreur{
-     throw new SyntaxErreur(s,erreurPos);
+  public void ErreurLex(String s,int errPos,int errCode) throws SyntaxErreur{
+    String message = "";
+    switch (errCode) {
+      case 1:
+        message = "Error detected get two '_' consecutive in the lexical unit : " + s + " at position : " + errPos+".";
+        break;
+      case 2:
+        message = "Error detected get digit in the lexical unit : " + s + " at position : " + errPos+".";
+        break;
+      case 3:
+        message = "Error detected get '_' at the end of a lexical unit : " + s + " at position : " + errPos+".";
+        break;
+      case 4:
+        message = "Error detected no capitalize letter at the begginning of the lexical unit : " + s + " at position : " + errPos+".";
+        break;
+      case 5:
+        message = "Error unknown symbol detected in the lexical unit : " + s + " at position : " + errPos+".";
+        break;
+      default:
+        break;
+    }
+    throw new SyntaxErreur(message);
   }
 
   
