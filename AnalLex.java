@@ -1,4 +1,4 @@
-package app6;
+package app5;
 
 /** @author Ahmed Khoumsi */
 
@@ -44,37 +44,48 @@ enum e_Machine{
 /** prochainTerminal() retourne le prochain terminal
       Cette methode est une implementation d'un AEF
  */  
-  public Terminal prochainTerminal( ) {
+  public Terminal prochainTerminal() {
     e_Machine etat;
-    while(true)
-    {
-      switch (chaineTotal.charAt(position)) {
-        case '+':
-          String s = "+";
-          return new Terminal(s, type.OPERATEUR, 0);
-        case '-':
-          s = "-";
-          return new Terminal(s, type.OPERATEUR, 0);
-        case '*':
-          s = "*";
-          return new Terminal(s, type.OPERATEUR, 0);
-        case '/':
-          s = "/";
-          return new Terminal(s, type.OPERATEUR, 0);
-        case '(':
-          s = "(";
-          return new Terminal(s, type.OPERATEUR, 0);
-        case ')':
-          s = ")";
-          return new Terminal(s, type.OPERATEUR, 0);
-      }
-      if(Character.isLetter(chaineTotal.charAt(position)))
-      {
-
-      }
-      position++;
+    switch (chaineTotal.charAt(position)) {
+      case '+':
+        String s = "+";
+        return new Terminal(s, type.OPERATEUR, 0);
+      case '-':
+        s = "-";
+        position++;
+        return new Terminal(s, type.OPERATEUR, 0);
+      case '*':
+        s = "*";
+        position++;
+        return new Terminal(s, type.OPERATEUR, 0);
+      case '/':
+        s = "/";
+        position++;
+        return new Terminal(s, type.OPERATEUR, 0);
+      case '(':
+        s = "(";
+        position++;
+        return new Terminal(s, type.OPERATEUR, 0);
+      case ')':
+        s = ")";
+        position++;
+        return new Terminal(s, type.OPERATEUR, 0);
     }
+    if(Character.isUpperCase(chaineTotal.charAt(position)))
+    {
+      String s ="";
+      while(true)
+      {
+        s += chaineTotal.charAt(position);
+        if(Character.isLetter(chaineTotal.charAt(position)) == false)
+        {
+          return new Terminal(s, type.OPERANTE, 0);
+        }
+        position++;
+      }
 
+      if()
+    }
 
     return null;
   }
