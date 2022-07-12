@@ -2,7 +2,7 @@ package app5;
 
 /** @author Ahmed Khoumsi */
 
-import app6.type;
+import app5.type;
 
 /** Cette classe effectue l'analyse lexicale
  */
@@ -46,11 +46,12 @@ enum e_Machine{
  */  
   public Terminal prochainTerminal( ) {
     e_Machine etat;
+    String s = "";
     while(true)
     {
       switch (chaineTotal.charAt(position)) {
         case '+':
-          String s = "+";
+          s = "+";
           return new Terminal(s, type.OPERATEUR, 0);
         case '-':
           s = "-";
@@ -68,11 +69,25 @@ enum e_Machine{
           s = ")";
           return new Terminal(s, type.OPERATEUR, 0);
       }
-      if(Character.isLetter(chaineTotal.charAt(position)))
+      if(Character.isUpperCase(chaineTotal.charAt(position)))
       {
 
       }
       position++;
+
+      while (Character.isDigit(chaineTotal.charAt(position))){
+        s += chaineTotal.charAt(position);
+        position++;
+      }
+        position --;
+        int integer = Integer.parseInt(s);
+        if(chaineTotal.charAt(position) == ('+' | '-' | '*' | '/' | '(' | ')')){
+          return new Terminal(s,type.OPERANTENUM,integer );
+        }
+        else if(Character.isLetter(chaineTotal.charAt(position))){
+          return new Terminal(s,type.OPERANTENUM, 0 );
+        }
+
     }
 
 
