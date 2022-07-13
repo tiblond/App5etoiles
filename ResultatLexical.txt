@@ -1,0 +1,1 @@
+Error unknown symbol detected in the lexical unit : Aasdasdasd_& at position : 11.

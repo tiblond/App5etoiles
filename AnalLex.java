@@ -2,8 +2,6 @@ package app5;
 
 /** @author Ahmed Khoumsi */
 
-import app5.type;
-
 /** Cette classe effectue l'analyse lexicale
  */
 public class AnalLex {
@@ -12,11 +10,19 @@ public class AnalLex {
 //  ...
 String chaineTotal;
 int size;
+state_Lex actualState;
 int position;
-enum e_Machine{
+enum state_Lex{
   STATE_0,
   STATE_1,
-  STATE_2
+  STATE_2,
+  STATE_3,
+  STATE_4,
+  STATE_5,
+  STATE_6,
+  STATE_7,
+  STATE_8,
+  STATE_9
 };
 
 
@@ -26,6 +32,7 @@ enum e_Machine{
     chaineTotal = word;
     size = word.length();
     position = 0;
+    actualState = state_Lex.STATE_0;
   }
 
 
@@ -34,7 +41,7 @@ enum e_Machine{
       true s'il reste encore au moins un terminal qui n'a pas ete retourne 
  */
   public boolean resteTerminal( ) {
-    if(position < size-1){
+    if(position < size){
       return true;
     }
     return false;
@@ -44,19 +51,19 @@ enum e_Machine{
 /** prochainTerminal() retourne le prochain terminal
       Cette methode est une implementation d'un AEF
  */  
-  public Terminal prochainTerminal() throws SyntaxErreur {
-    e_Machine etat;
+  public Terminal prochainTerminal() throws LexicalErreur {
     String s = "";
     int value = 0;
     while(position < size)
     {
-      if(chaineTotal.charAt(position) == ('+' | '-' | '*' | '/' | '(' | ')')) {
+      if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
         s += chaineTotal.charAt(position);
         position++;
-        return new Terminal(s, type.OPERATEUR, 0);
+        return new Terminal(s, type.OPERATEUR, null);
       }
       else if(Character.isUpperCase(chaineTotal.charAt(position)))
       {
+
         s += chaineTotal.charAt(position);
         position++;
         while(Character.isLetter(chaineTotal.charAt(position)) | chaineTotal.charAt(position) == '_')
@@ -65,30 +72,27 @@ enum e_Machine{
           {
             s+= chaineTotal.charAt(position);
             ErreurLex(s,position,1);
-            return null;
           }
           s += chaineTotal.charAt(position);
           position++;
         }
-        if(chaineTotal.charAt(position) == ('+' | '-' | '*' | '/' | '(' | ')')){
+        if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
           if(chaineTotal.charAt(position-1) == '_')
           {
             s+= chaineTotal.charAt(position);
             ErreurLex(s,position,3);
           }
-          return new Terminal(s,type.OPERANTE,0 );
+          return new Terminal(s,type.OPERANTE,null);
         }
         if(Character.isDigit(chaineTotal.charAt(position)))
         {
           s+= chaineTotal.charAt(position);
           ErreurLex(s,position,2);
-          return null;
         }
         else
         {
           s+= chaineTotal.charAt(position);
           ErreurLex(s,position,5);
-          return null;
         }
       }
       else if(Character.isDigit(chaineTotal.charAt(position)))
@@ -98,64 +102,50 @@ enum e_Machine{
           position++;
         }
         value = Integer.parseInt(s);
-        if(chaineTotal.charAt(position) == ('+' | '-' | '*' | '/' | '(' | ')')){
+        if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
           return new Terminal(s,type.OPERANTENUM,value );
         }
         else{
           s+= chaineTotal.charAt(position);
           ErreurLex(s,position,6);
-          return null;
         }
       }
       else if(Character.isLowerCase(chaineTotal.charAt(position)) && chaineTotal.charAt(position) == '_')
       {
         s+= chaineTotal.charAt(position);
         ErreurLex(s,position,4);
-        return null;
       }
       else {
         s += chaineTotal.charAt(position);
         ErreurLex(s,position,5);
-        return null;
       }
     }
     if(Character.isLetter(chaineTotal.charAt(position-1)))
     {
-      return new Terminal(s,type.OPERANTE,0 );
+      return new Terminal(s,type.OPERANTE,null);
     }
     else {
-      return new Terminal(s,type.OPERANTENUM,value );
+      return new Terminal(s,type.OPERANTENUM,value);
     }
   }
 
  
 /** ErreurLex() envoie un message d'erreur lexicale
  */ 
-  public void ErreurLex(String s,int errPos,int errCode) throws SyntaxErreur{
+  public void ErreurLex(String s,int errPos,int errCode) throws LexicalErreur {
     String message = "";
     switch (errCode) {
-      case 1:
-        message = "Error detected get two '_' consecutive in the lexical unit : " + s + " at position : " + errPos+".";
-        break;
-      case 2:
-        message = "Error detected get digit in the lexical unit : " + s + " at position : " + errPos+".";
-        break;
-      case 3:
-        message = "Error detected get '_' at the end of a lexical unit : " + s + " at position : " + errPos+".";
-        break;
-      case 4:
-        message = "Error detected no capitalize letter at the begginning of the lexical unit : " + s + " at position : " + errPos+".";
-        break;
-      case 5:
-        message = "Error unknown symbol detected in the lexical unit : " + s + " at position : " + errPos+".";
-        break;
-      case 6:
-        message = "Error detected current char is not a digit: " + s + " at position : " + errPos+".";
-        break;
-      default:
-        break;
+      case 1 -> message = "Error detected get two '_' consecutive in the lexical unit : " + s + " at position : " + errPos + ".";
+      case 2 -> message = "Error detected get digit in the lexical unit : " + s + " at position : " + errPos + ".";
+      case 3 -> message = "Error detected get '_' at the end of a lexical unit : " + s + " at position : " + errPos + ".";
+      case 4 -> message = "Error detected no capitalize letter at the begginning of the lexical unit : " + s + " at position : " + errPos + ".";
+      case 5 -> message = "Error unknown symbol detected in the lexical unit : " + s + " at position : " + errPos + ".";
+      case 6 -> message = "Error detected current char is not a digit: " + s + " at position : " + errPos + ".";
+      default -> {
+        message = "Unknown lexical error occurred.";
+      }
     }
-    throw new SyntaxErreur(message);
+    throw new LexicalErreur(message);
   }
 
   
@@ -165,8 +155,8 @@ enum e_Machine{
     System.out.println("Debut d'analyse lexicale");
     if (args.length == 0){
     args = new String [2];
-            args[0] = "./ExpArith.txt";
-            args[1] = "./ResultatLexical.txt";
+            args[0] = "ExpArith.txt";
+            args[1] = "ResultatLexical.txt";
     }
     Reader r = new Reader(args[0]);
 
@@ -177,10 +167,12 @@ enum e_Machine{
     while(lexical.resteTerminal()){
       try {
         t = lexical.prochainTerminal();
-      } catch (SyntaxErreur e) {
-        e.getMessage();
+        toWrite += t.chaine + "\n" ;
+      } catch (LexicalErreur e) {
+        toWrite += e.getMessage();
+        break;
       }
-      toWrite +=t.chaine + "\n" ;  // toWrite contient le resultat
+        // toWrite contient le resultat
     }				   //    d'analyse lexicale
     System.out.println(toWrite); 	// Ecriture de toWrite sur la console
     Writer w = new Writer(args[1],toWrite); // Ecriture de toWrite dans fichier args[1]
