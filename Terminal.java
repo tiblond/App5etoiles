@@ -11,8 +11,7 @@ public class Terminal {
 
 String chaine;
 type typeUL;
-int valueTerminal;
-int opId;
+Integer valueTerminal;
 
 
 /** Un ou deux constructeurs (ou plus, si vous voulez)
