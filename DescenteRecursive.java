@@ -1,4 +1,4 @@
-package app;6
+package app5;
 
 /** @author Ahmed Khoumsi */
 
@@ -22,6 +22,7 @@ public DescenteRecursive(String in) {
  */
 public ElemAST AnalSynt( ) {
    //
+  return null;
 }
 
 

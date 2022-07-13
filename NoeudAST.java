@@ -1,4 +1,4 @@
-package app6;
+package app5;
 
 /** @author Ahmed Khoumsi */
 
@@ -19,6 +19,7 @@ public class NoeudAST extends ElemAST {
    */
   public int EvalAST( ) {
      //
+    return 0;
   }
 
 
@@ -26,6 +27,7 @@ public class NoeudAST extends ElemAST {
    */
   public String LectAST( ) {
      //
+    return "";
   }
 
 }
