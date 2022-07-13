@@ -20,6 +20,7 @@ public class FeuilleAST extends ElemAST {
    */
   public int EvalAST( ) {
     //
+      return 0;
   }
 
 
@@ -27,6 +28,7 @@ public class FeuilleAST extends ElemAST {
   */
   public String LectAST( ) {
     //
+      return "";
   }
 
 }

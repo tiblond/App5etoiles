@@ -22,6 +22,7 @@ public DescenteRecursive(String in) {
  */
 public ElemAST AnalSynt( ) {
    //
+  return null;
 }
 
 
