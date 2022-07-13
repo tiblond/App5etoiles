@@ -13,7 +13,7 @@ public class DescenteRecursive {
       - pour l'initalisation d'attribut(s)
  */
 public DescenteRecursive(String in) {
-    //
+
 }
 
 
