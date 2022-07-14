@@ -54,79 +54,91 @@ enum state_Lex{
   public Terminal prochainTerminal() throws LexicalErreur {
     String s = "";
     int value = 0;
-    while(position < size)
+    if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
+      s += chaineTotal.charAt(position);
+      position++;
+      if (s.equals("+") | s.equals("-"))
+      {
+        return new Terminal(s, type.OPERATEURB, null, position-1);
+      }
+      else if(s.equals("*")| s.equals("/")){
+        return new Terminal(s, type.OPERATEURC, null,position-1);
+      }
+      else if(s.equals("(")) {
+        return new Terminal(s, type.OPERATEURO, null, position-1);
+      }
+      else if(s.equals(")")){
+        return new Terminal(s, type.OPERATEURF, null, position-1);
+      }
+    }
+    else if(Character.isUpperCase(chaineTotal.charAt(position)))
     {
+      s += chaineTotal.charAt(position);
+      position++;
+      while(Character.isLetter(chaineTotal.charAt(position)) | chaineTotal.charAt(position) == '_')
+      {
+        if(position == size)
+        {
+          return new Terminal(s,type.OPERANTE,null, position-1);
+        }
+        if(chaineTotal.charAt(position-1) == '_' && chaineTotal.charAt(position) == '_')
+        {
+          s+= chaineTotal.charAt(position);
+          ErreurLex(s,position,1);
+        }
+        s += chaineTotal.charAt(position);
+        position++;
+      }
       if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
-        s += chaineTotal.charAt(position);
-        position++;
-        return new Terminal(s, type.OPERATEUR, null);
-      }
-      else if(Character.isUpperCase(chaineTotal.charAt(position)))
-      {
-
-        s += chaineTotal.charAt(position);
-        position++;
-        while(Character.isLetter(chaineTotal.charAt(position)) | chaineTotal.charAt(position) == '_')
-        {
-          if(chaineTotal.charAt(position-1) == '_' && chaineTotal.charAt(position) == '_')
-          {
-            s+= chaineTotal.charAt(position);
-            ErreurLex(s,position,1);
-          }
-          s += chaineTotal.charAt(position);
-          position++;
-        }
-        if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
-          if(chaineTotal.charAt(position-1) == '_')
-          {
-            s+= chaineTotal.charAt(position);
-            ErreurLex(s,position,3);
-          }
-          return new Terminal(s,type.OPERANTE,null);
-        }
-        if(Character.isDigit(chaineTotal.charAt(position)))
+        if(chaineTotal.charAt(position-1) == '_')
         {
           s+= chaineTotal.charAt(position);
-          ErreurLex(s,position,2);
+          ErreurLex(s,position,3);
         }
-        else
-        {
-          s+= chaineTotal.charAt(position);
-          ErreurLex(s,position,5);
-        }
+        return new Terminal(s,type.OPERANTE,null, position-1);
       }
-      else if(Character.isDigit(chaineTotal.charAt(position)))
-      {
-        while (Character.isDigit(chaineTotal.charAt(position))){
-          s += chaineTotal.charAt(position);
-          position++;
-        }
-        value = Integer.parseInt(s);
-        if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
-          return new Terminal(s,type.OPERANTENUM,value );
-        }
-        else{
-          s+= chaineTotal.charAt(position);
-          ErreurLex(s,position,6);
-        }
-      }
-      else if(Character.isLowerCase(chaineTotal.charAt(position)) && chaineTotal.charAt(position) == '_')
+      if(Character.isDigit(chaineTotal.charAt(position)))
       {
         s+= chaineTotal.charAt(position);
-        ErreurLex(s,position,4);
+        ErreurLex(s,position,2);
       }
-      else {
-        s += chaineTotal.charAt(position);
+      else
+      {
+        s+= chaineTotal.charAt(position);
         ErreurLex(s,position,5);
       }
     }
-    if(Character.isLetter(chaineTotal.charAt(position-1)))
+    else if(Character.isDigit(chaineTotal.charAt(position)))
     {
-      return new Terminal(s,type.OPERANTE,null);
+      while (Character.isDigit(chaineTotal.charAt(position))){
+        s += chaineTotal.charAt(position);
+        position++;
+        if(position == size)
+        {
+          value = Integer.parseInt(s);
+          return new Terminal(s,type.OPERANTENUM,value, position-1);
+        }
+      }
+
+      value = Integer.parseInt(s);
+      if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
+        return new Terminal(s,type.OPERANTENUM,value, position-1);
+      }
+      else{
+        s+= chaineTotal.charAt(position);
+        ErreurLex(s,position,6);
+      }
+    }
+    else if(Character.isLowerCase(chaineTotal.charAt(position)) | chaineTotal.charAt(position) == '_')
+    {
+      s+= chaineTotal.charAt(position);
+      ErreurLex(s,position,4);
     }
     else {
-      return new Terminal(s,type.OPERANTENUM,value);
+      s += chaineTotal.charAt(position);
+      ErreurLex(s,position,5);
     }
+    return null;
   }
 
  
@@ -135,12 +147,12 @@ enum state_Lex{
   public void ErreurLex(String s,int errPos,int errCode) throws LexicalErreur {
     String message = "";
     switch (errCode) {
-      case 1 -> message = "Error detected get two '_' consecutive in the lexical unit : " + s + " at position : " + errPos + ".";
-      case 2 -> message = "Error detected get digit in the lexical unit : " + s + " at position : " + errPos + ".";
-      case 3 -> message = "Error detected get '_' at the end of a lexical unit : " + s + " at position : " + errPos + ".";
-      case 4 -> message = "Error detected no capitalize letter at the begginning of the lexical unit : " + s + " at position : " + errPos + ".";
-      case 5 -> message = "Error unknown symbol detected in the lexical unit : " + s + " at position : " + errPos + ".";
-      case 6 -> message = "Error detected current char is not a digit: " + s + " at position : " + errPos + ".";
+      case 1 -> message = "Error detected, get two '_' consecutive in the lexical unit : " + s + " at position : " + errPos + ".";
+      case 2 -> message = "Error detected, get digit in the lexical unit : " + s + " at position : " + errPos + ".";
+      case 3 -> message = "Error detected, get '_' at the end of a lexical unit : " + s + " at position : " + errPos + ".";
+      case 4 -> message = "Error detected, no capitalize letter at the begginning of the lexical unit : " + s + " at position : " + errPos + ".";
+      case 5 -> message = "Error detected, unknown symbol detected in the lexical unit : " + s + " at position : " + errPos + ".";
+      case 6 -> message = "Error detected, current char is not a digit: " + s + " at position : " + errPos + ".";
       default -> {
         message = "Unknown lexical error occurred.";
       }

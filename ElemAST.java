@@ -7,29 +7,24 @@ package app5;
 public abstract class ElemAST {
 
 
-  
-  /** Evaluation d'AST
+  /**
+   * Evaluation d'AST
    */
-  public abstract int EvalAST();
+  public abstract float EvalAST();
 
 
-  /** Lecture d'AST
+  /**
+   * Lecture d'AST
    */
   public abstract String LectAST();
 
+  public abstract String PostLectAST();
 
-/** ErreurEvalAST() envoie un message d'erreur lors de la construction d'AST
- */  
-  public void ErreurEvalAST(String s, int errPos,int errCode) throws SyntaxErreur {
-    String message = "";
-    switch (errCode) {
-      case 1 -> message = "Error detected '(' not closed at position : " + errPos + ".";
-      case 2 -> message = "Error detected ')' never open at position : " + errPos + ".";
-      default -> {
-        message = "Unknown syntax error occurred.";
-      }
-    }
-    throw new SyntaxErreur(message);
-  }
+  /**
+   * ErreurEvalAST() envoie un message d'erreur lors de la construction d'AST
+   */
+  public void ErreurEvalAST(String s, int errPos, int errCode) {};
+
+
 
 }

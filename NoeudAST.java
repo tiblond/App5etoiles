@@ -7,20 +7,20 @@ package app5;
 public class NoeudAST extends ElemAST {
   // Attributs
   String type;
-  FeuilleAST EnfantG;
-  FeuilleAST EnfantD;
+  ElemAST EnfantG;
+  ElemAST EnfantD;
   /** Constructeur pour l'initialisation d'attributs
    */
-  public NoeudAST(String el,FeuilleAST Eg,FeuilleAST Ed) { // avec arguments
+  public NoeudAST(String el,ElemAST Eg,ElemAST Ed) { // avec arguments
     type = el;
     EnfantG = Eg;
     EnfantD = Ed;
   }
 
- 
+
   /** Evaluation de noeud d'AST
    */
-  public int EvalAST() {
+  public float EvalAST() {
     return switch (type) {
       case "+" -> EnfantG.EvalAST() + EnfantD.EvalAST();
       case "-" -> EnfantG.EvalAST() - EnfantD.EvalAST();
@@ -33,10 +33,13 @@ public class NoeudAST extends ElemAST {
 
   /** Lecture de noeud d'AST
    */
-  public String LectAST( ) {
-    return EnfantG.LectAST() + type + EnfantD.LectAST();
+  public String PostLectAST( ) {
+    return EnfantG.PostLectAST() + " " + EnfantD.PostLectAST() + " " + type;
   }
 
+  public String LectAST( ) {
+    return EnfantG.LectAST() + " " + type+ " " + EnfantD.LectAST();
+  }
 }
 
 

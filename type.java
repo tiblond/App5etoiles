@@ -1,7 +1,10 @@
 package app5;
 
 enum type {
-    OPERATEUR,
+    OPERATEURB,
     OPERANTENUM,
-    OPERANTE
+    OPERANTE,
+    OPERATEURC,
+    OPERATEURO,
+    OPERATEURF
 }

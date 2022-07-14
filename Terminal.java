@@ -11,16 +11,18 @@ public class Terminal {
 
 String chaine;
 type typeUL;
-Integer valueTerminal;
+Integer value;
+int position;
 
 
 /** Un ou deux constructeurs (ou plus, si vous voulez)
   *   pour l'initalisation d'attributs 
  */	
-  public Terminal(String el, type blabla, Integer value) {   // arguments possibles
+  public Terminal(String el, type blabla, Integer val,int pos) {   // arguments possibles
     chaine = el;
     typeUL = blabla;
-    valueTerminal = value;
+    value = val;
+    position = pos;
   }
 
 

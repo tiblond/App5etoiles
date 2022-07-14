@@ -7,7 +7,7 @@ package app5;
 public class FeuilleAST extends ElemAST {
 
   // Attribut(s)
-int value = 0;
+float value = 0;
 String chaine = "";
 
 /**Constructeur pour l'initialisation d'attribut(s)
@@ -20,7 +20,7 @@ String chaine = "";
 
   /** Evaluation de feuille d'AST
    */
-  public int EvalAST( ) {
+  public float EvalAST( ) {
       return value;
   }
 
@@ -30,5 +30,7 @@ String chaine = "";
   public String LectAST( ) {
       return chaine;
   }
-
+  public String PostLectAST( ) {
+        return chaine;
+    }
 }
