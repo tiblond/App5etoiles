@@ -53,7 +53,7 @@ enum state_Lex{
  */  
   public Terminal prochainTerminal() throws LexicalErreur {
     String s = "";
-    int value = 0;
+    Float value = null;
     if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
       s += chaineTotal.charAt(position);
       position++;
@@ -115,12 +115,11 @@ enum state_Lex{
         position++;
         if(position == size)
         {
-          value = Integer.parseInt(s);
+          value = Float.parseFloat(s);
           return new Terminal(s,type.OPERANTENUM,value, position-1);
         }
       }
-
-      value = Integer.parseInt(s);
+      value = Float.parseFloat(s);
       if(chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')'){
         return new Terminal(s,type.OPERANTENUM,value, position-1);
       }
