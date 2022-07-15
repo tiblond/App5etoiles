@@ -50,13 +50,9 @@ private ElemAST S() throws SyntaxErreur, LexicalErreur {
     String type = UL.chaine;
     if(lexical.resteTerminal()) {
       UL = lexical.prochainTerminal();
-      if (UL.typeUL == app5.type.OPERATEURF | UL.typeUL == app5.type.OPERATEURO | UL.typeUL == app5.type.OPERANTENUM)
+      if (UL.typeUL == app5.type.OPERATEURF | UL.typeUL == app5.type.OPERATEURO | UL.typeUL == app5.type.OPERANTENUM | UL.typeUL == app5.type.OPERANTE)
       {
         n2 = S();
-      }
-      else if(UL.typeUL == app5.type.OPERANTE)
-      {
-        ErreurSynt(UL.chaine, UL.position, 3);
       }
       else {
         ErreurSynt(UL.chaine, UL.position, 5);
@@ -76,17 +72,11 @@ private ElemAST U() throws SyntaxErreur, LexicalErreur {
     String type = UL.chaine;
     if(lexical.resteTerminal()) {
       UL = lexical.prochainTerminal();
-      if (UL.typeUL == app5.type.OPERATEURF | UL.typeUL == app5.type.OPERATEURO | UL.typeUL == app5.type.OPERANTENUM)
+      if (UL.typeUL == app5.type.OPERATEURB | UL.typeUL == app5.type.OPERATEURC)
       {
-        n2 = U();
-      }
-      else if(UL.typeUL == app5.type.OPERANTE)
-      {
-        ErreurSynt(UL.chaine, UL.position, 3);
-      }
-      else {
         ErreurSynt(UL.chaine, UL.position, 5);
       }
+      n2 = U();
       response = new NoeudAST(type, n1, n2);
     }
   }
@@ -101,17 +91,21 @@ private ElemAST V() throws SyntaxErreur, LexicalErreur {
         UL = lexical.prochainTerminal();
     }
   }
+  else if(UL.typeUL == type.OPERANTE){
+    response = new FeuilleAST(UL.chaine,UL.value);
+    if(lexical.resteTerminal()) {
+      UL = lexical.prochainTerminal();
+    }
+  }
   else if(UL.typeUL == type.OPERATEURO){
     cptP++;
     if(lexical.resteTerminal()) {
         UL = lexical.prochainTerminal();
-        if (UL.typeUL == type.OPERANTENUM | UL.typeUL == type.OPERATEURO)
+        if (UL.typeUL == type.OPERATEURC | UL.typeUL == type.OPERATEURB)
         {
-          response = S();
-        }
-        else {
           ErreurSynt(UL.chaine, UL.position, 4);
         }
+        response = S();
         if (UL.typeUL == type.OPERATEURF) {
           cptP--;
           if(lexical.resteTerminal()) {
@@ -125,9 +119,7 @@ private ElemAST V() throws SyntaxErreur, LexicalErreur {
   else if (UL.typeUL == type.OPERATEURF){
     cptP--;
   }
-  else if(UL.typeUL == type.OPERANTE){
-    ErreurSynt(UL.chaine, UL.position, 3);
-  }
+
   return response;
 };
 
@@ -139,10 +131,9 @@ public void ErreurSynt(String s,int errPos,int errCode) throws SyntaxErreur {
   String message = "";
   switch (errCode) {
     case 1 -> message = "Error detected, too much ')' in current expression.";
-    case 3 -> message = "Error detected, alphabetical operand detected in UL : " + s + " at position : " + errPos + ".";
     case 4-> message = "Error detected, operator after '(' in UL : " + s + " at position : " + errPos + ".";
     case 5-> message = "Error detected, subsequent operator in UL : " + s + " at position : " + errPos + ".";
-    case 6-> message = "Error detected, doesn't find a matching ')' for '(' : " + s + " at position : " + errPos + ".";
+    case 6-> message = "Error detected, doesn't find a matching ')' for '(' in UL : " + s + " at position : " + errPos + ".";
     default -> {
       message = "Unknown syntax error occurred.";
     }

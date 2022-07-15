@@ -20,7 +20,7 @@ public class NoeudAST extends ElemAST {
 
   /** Evaluation de noeud d'AST
    */
-  public float EvalAST() {
+  public float EvalAST() throws SyntaxErreur {
     return switch (type) {
       case "+" -> EnfantG.EvalAST() + EnfantD.EvalAST();
       case "-" -> EnfantG.EvalAST() - EnfantD.EvalAST();
@@ -29,7 +29,6 @@ public class NoeudAST extends ElemAST {
       default -> throw new IllegalStateException("Unexpected value: " + type);
     };
   }
-
 
   /** Lecture de noeud d'AST
    */
