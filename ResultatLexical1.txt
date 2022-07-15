@@ -4,6 +4,4 @@ Operator : +
 Identifier : V_y
 Operator : )
 Operator : *
-Identifier : W_z
-Operator : /
-Number : 35
+Error detected, get two '_' consecutive in the lexical unit : W__ at position : 12.

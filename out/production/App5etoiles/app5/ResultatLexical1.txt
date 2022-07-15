@@ -4,6 +4,4 @@ Operator : +
 Identifier : V_y
 Operator : )
 Operator : *
-Identifier : W_z
-Operator : /
-Number : 35
+Error detected, get '_' at the end of a lexical unit : W__z/ at position : 14.
