@@ -38,7 +38,7 @@ public class NoeudAST extends ElemAST {
   }
 
   public String LectAST( ) {
-    return EnfantG.LectAST() + " " + type+ " " + EnfantD.LectAST();
+    return "(" + EnfantG.LectAST() +" " + type+ " " + EnfantD.LectAST() + ")";
   }
 }
 
