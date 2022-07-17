@@ -1,0 +1,8 @@
+Operator : (
+Identifier : H
+Operator : -
+Identifier : Jambon
+Operator : )
+Operator : /
+Operator : (
+Error detected, no capitalize letter at the begginning of the lexical unit : ko at position : 13.

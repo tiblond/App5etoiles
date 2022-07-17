@@ -2,6 +2,9 @@ package app5;
 
 /** @author Ahmed Khoumsi */
 
+import static app5.Test.testLexicale;
+import static app5.Test.testSyntax;
+
 /** Cette classe effectue l'analyse syntaxique
  */
 public class DescenteRecursive {
@@ -50,7 +53,7 @@ private ElemAST S() throws SyntaxErreur, LexicalErreur {
     String type = UL.chaine;
     if(lexical.resteTerminal()) {
       UL = lexical.prochainTerminal();
-      if (UL.typeUL == app5.type.OPERATEURF | UL.typeUL == app5.type.OPERATEURO | UL.typeUL == app5.type.OPERANTENUM | UL.typeUL == app5.type.OPERANTE)
+      if (UL.typeUL == app5.type.OPERATEURO | UL.typeUL == app5.type.OPERANTENUM | UL.typeUL == app5.type.OPERANTE)
       {
         n2 = S();
       }
@@ -72,7 +75,7 @@ private ElemAST U() throws SyntaxErreur, LexicalErreur {
     String type = UL.chaine;
     if(lexical.resteTerminal()) {
       UL = lexical.prochainTerminal();
-      if (UL.typeUL == app5.type.OPERATEURB | UL.typeUL == app5.type.OPERATEURC)
+      if (UL.typeUL == app5.type.OPERATEURB | UL.typeUL == app5.type.OPERATEURC | UL.typeUL == app5.type.OPERATEURF)
       {
         ErreurSynt(UL.chaine, UL.position, 5);
       }
@@ -145,36 +148,34 @@ public void ErreurSynt(String s,int errPos,int errCode) throws SyntaxErreur {
 
   //Methode principale a lancer pour tester l'analyseur syntaxique 
   public static void main(String[] args) {
-    String toWriteLect = "";
-    String toWriteEval = "";
-    String toWriteLectPost = "";
 
-    System.out.println("Debut d'analyse syntaxique");
     if (args.length == 0){
-      args = new String [2];
+      args = new String [12];
       args[0] = "ExpArith.txt";
       args[1] = "ResultatSyntaxique.txt";
+      args[2] = "ResultatSyntaxique1.txt";
+      args[3] = "ResultatSyntaxique2.txt";
+      args[4] = "ResultatLexical.txt";
+      args[5] = "ResultatLexical1.txt";
+      args[6] = "ResultatLexical2.txt";
+      args[7] = "ResultatLexical3.txt";
+      args[8] = "ResultatLexical4.txt";
+      args[9] = "ResultatLexical5.txt";
+      args[10] = "ResultatLexical6.txt";
+      args[11] = "ResultatLexical7.txt";
     }
-    Reader reader = new Reader(args[0]);
 
-    DescenteRecursive dr = new DescenteRecursive(reader.toString());
-    try {
-
-      ElemAST RacineAST = dr.AnalSynt();
-      toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
-      System.out.println(toWriteLect);
-      toWriteLectPost += "Lecture de l'AST postfix trouve : " + RacineAST.PostLectAST() + "\n";
-      System.out.println(toWriteLectPost);
-      toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
-      System.out.println(toWriteEval);
-      Writer w = new Writer(args[1],toWriteLect+toWriteLectPost+toWriteEval); // Ecriture de toWrite
-                                                              // dans fichier args[1]
-    } catch (Exception e) {
-      System.out.println(e);
-      e.printStackTrace();
-      System.exit(51);
-    }
-    System.out.println("Analyse syntaxique terminee");
+    testSyntax("(U_x-V_y)*W_z/35",1, args[1]);
+    testSyntax("(55-47)*14/2",2, args[2]);
+    testSyntax("(U_x-)*W_z/35",3, args[3]);
+    testLexicale("(U_x+V_y)*W_z/35",1,args[4]);
+    testLexicale("(H-Jambon)/(Koala_panda+34)",8,args[11]);
+    testLexicale("(U_x+V_y)*W__z/35",2,args[5]);
+    testLexicale("(u_x+V_y)*W_z/35",3,args[6]);
+    testLexicale("(U_x%V_y)*W_z/35",4,args[7]);
+    testLexicale("(U_2+V_y)*W_z/35",5,args[8]);
+    testLexicale("(U_+V_y)*W_z/35",6,args[9]);
+    testLexicale("(5L+V_y)*W_z/35",7,args[10]);
   }
 
 }

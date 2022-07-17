@@ -27,13 +27,13 @@ int position;
   public String printTerminal(){
     if (typeUL == type.OPERANTE)
     {
-      return "Identifier" + chaine;
+      return "Identifier : " + chaine + "\n";
     }
     else if (typeUL == type.OPERANTENUM){
-      return "Number" + chaine;
+      return "Number : " + chaine + "\n";
     }
     else{
-      return "Operator" + chaine;
+      return "Operator : " + chaine + "\n";
     }
   }
 
