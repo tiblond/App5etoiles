@@ -5,4 +5,7 @@ Identifier : Jambon
 Operator : )
 Operator : /
 Operator : (
-Error detected, no capitalize letter at the begginning of the lexical unit : ko at position : 13.
+Identifier : Koala_panda
+Operator : +
+Number : 34
+Operator : )

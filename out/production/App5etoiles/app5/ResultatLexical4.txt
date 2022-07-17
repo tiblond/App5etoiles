@@ -1,2 +1,2 @@
 Operator : (
-Error detected, unknown symbol detected in the lexical unit : U_2 at position : 3.
+Error detected, get digit in the lexical unit : U_2 at position : 3.

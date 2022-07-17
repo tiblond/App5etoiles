@@ -75,7 +75,6 @@ public class AnalLex {
         } else if (actualState == state_Lex.STATE_5) {
             stateMachine();
             while (actualState == state_Lex.STATE_5 | actualState == state_Lex.STATE_6) {
-
                 if (position == size) {
                     return new Terminal(s, type.OPERANTE, null, position - 1);
                 }
@@ -108,8 +107,8 @@ public class AnalLex {
         }
 
         else if (actualState == state_Lex.STATE_7) {
+            stateMachine();
             while (actualState == state_Lex.STATE_7) {
-
                 if (position == size) {
                     value = Float.parseFloat(s);
                     return new Terminal(s, type.OPERANTENUM, value, position - 1);
@@ -121,13 +120,14 @@ public class AnalLex {
                 }
             }
 
-            value = Float.parseFloat(s);
             if (actualState == state_Lex.STATE_9) {
+                value = Float.parseFloat(s);
                 return new Terminal(s, type.OPERANTENUM, value, position - 1);
             } else {
                 s += chaineTotal.charAt(position);
                 ErreurLex(s, position, 6);
             }
+
         } else if (actualState == state_Lex.STATE_9) {
             s += chaineTotal.charAt(position);
             ErreurLex(s, position, 4);
@@ -195,6 +195,17 @@ public class AnalLex {
                     previousState = actualState;
                     actualState = state_Lex.STATE_5;
                 }
+                else if (Character.isDigit(chaineTotal.charAt(position))) {
+                    previousState = actualState;
+                    actualState = state_Lex.STATE_7;
+                }
+                else if (chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-'
+                        | chaineTotal.charAt(position) == '*'
+                        | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '('
+                        | chaineTotal.charAt(position) == ')') {
+                    previousState = actualState;
+                    actualState = state_Lex.STATE_9;
+                }
                 else if (chaineTotal.charAt(position) == '_') {
                     previousState = actualState;
                     actualState = state_Lex.STATE_6;
@@ -204,9 +215,13 @@ public class AnalLex {
                 }
                 break;
             case STATE_7:
-                if (chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')') {
+                if (Character.isDigit(chaineTotal.charAt(position))) {
+                    break;
+                }
+                else if (chaineTotal.charAt(position) == '+' | chaineTotal.charAt(position) == '-' | chaineTotal.charAt(position) == '*' | chaineTotal.charAt(position) == '/' | chaineTotal.charAt(position) == '(' | chaineTotal.charAt(position) == ')') {
                     actualState = state_Lex.STATE_9;
-                } else {
+                }
+                else {
                     actualState = state_Lex.STATE_8;
                 }
                 break;
