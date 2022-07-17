@@ -150,21 +150,32 @@ public void ErreurSynt(String s,int errPos,int errCode) throws SyntaxErreur {
   public static void main(String[] args) {
 
     if (args.length == 0){
-      args = new String [6];
+      args = new String [12];
       args[0] = "ExpArith.txt";
       args[1] = "ResultatSyntaxique.txt";
       args[2] = "ResultatSyntaxique1.txt";
       args[3] = "ResultatSyntaxique2.txt";
       args[4] = "ResultatLexical.txt";
       args[5] = "ResultatLexical1.txt";
-
+      args[6] = "ResultatLexical2.txt";
+      args[7] = "ResultatLexical3.txt";
+      args[8] = "ResultatLexical4.txt";
+      args[9] = "ResultatLexical5.txt";
+      args[10] = "ResultatLexical6.txt";
+      args[11] = "ResultatLexical7.txt";
     }
 
     testSyntax("(U_x-V_y)*W_z/35",1, args[1]);
     testSyntax("(55-47)*14/2",2, args[2]);
     testSyntax("(U_x-)*W_z/35",3, args[3]);
     testLexicale("(U_x+V_y)*W_z/35",1,args[4]);
+    testLexicale("(H-Jambon)/(Koala_panda+34)",8,args[11]);
     testLexicale("(U_x+V_y)*W__z/35",2,args[5]);
+    testLexicale("(u_x+V_y)*W_z/35",3,args[6]);
+    testLexicale("(U_x%V_y)*W_z/35",4,args[7]);
+    testLexicale("(U_2+V_y)*W_z/35",5,args[8]);
+    testLexicale("(U_+V_y)*W_z/35",6,args[9]);
+    testLexicale("(5L+V_y)*W_z/35",7,args[10]);
   }
 
 }

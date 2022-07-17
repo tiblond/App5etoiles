@@ -1,7 +1,9 @@
-(
-U_x
--
-V_y
-)
-*
-Error detected, get two '_' consecutive in the lexical unit : W__ at position : 12.
+Operator : (
+Identifier : U_x
+Operator : +
+Identifier : V_y
+Operator : )
+Operator : *
+Identifier : W_z
+Operator : /
+Number : 35

@@ -4,4 +4,4 @@ Operator : +
 Identifier : V_y
 Operator : )
 Operator : *
-Error detected, get '_' at the end of a lexical unit : W__z/ at position : 14.
+Error detected, get two '_' consecutive in the lexical unit : W__ at position : 12.
